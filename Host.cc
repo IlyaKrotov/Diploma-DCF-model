@@ -7,7 +7,7 @@
 #include "messages_m.h"
 
 #define RETRY_LIMIT 3
-#define HOSTS_NUMBER 3
+#define HOSTS_NUMBER 8
 
 using namespace omnetpp;
 
@@ -42,32 +42,18 @@ class ChannelListener : public cListener, cSimpleModule
             signalMessage* tmp = (signalMessage*)malloc(sizeof(signalMessage));
             tmp = static_cast<signalMessage*>(value);
 
-            
-            //EV << "New message arrived ";
-            //tmp->showMessage();
-            //EV << "Size of list: " << signalsList.size() << endl;
-
             if (bool(tmp->value) == true) 
             {
                 signalsList.push_back(tmp);
-                /*
-                EV << endl << "List after push" << endl;
-                for(auto it = signalsList.begin(); it != signalsList.end(); it++)
-                {   
-                    (*it)->showMessage();
+
+                if (signalsList.size() > 1)
+                {
+                    corrupted = true;
+                    EV << "corruption set" << endl << "number of frames in collision: " << signalsList.size() << endl;
                 }
-                */
             } 
             else 
             {   
-                /*
-                EV << endl << "List before erasement" << endl;
-                for(auto it = signalsList.begin(); it != signalsList.end(); it++)
-                {   
-                    (*it)->showMessage();
-                }
-                */
-
                 if (signalsList.size() > 1)
                 {
                     corrupted = true;
@@ -81,13 +67,12 @@ class ChannelListener : public cListener, cSimpleModule
                         it = signalsList.erase(it);
                     }
                 } 
-                /*
-                EV << endl << "Erased list" << endl << endl;
-                for(auto it = signalsList.begin(); it != signalsList.end(); it++)
-                {   
-                    (*it)->showMessage();
+
+                if (signalsList.size() == 0)
+                {
+                    EV << "corruption reset" << endl;   
+                    corrupted = false;
                 }
-                */
             } 
 
             EV << endl << "List after recived signal" << endl;
@@ -99,24 +84,33 @@ class ChannelListener : public cListener, cSimpleModule
 
         virtual bool channelBusyness()
         {
-            if(signalsList.size() == 0) 
-            { return true; }
-            else 
-            { return false; }
+            return signalsList.size() == 0 ? false : true;
         }
 
         virtual bool isCorrupted()
         {
+            if (signalsList.size() > 1)
+            {
+                corrupted = true;
+                EV << "corruption set" << endl << "number of frames in collision: " << signalsList.size() << endl;
+            }
             return corrupted;
         }
 
         virtual void resetCorruption()
         {   
-            //if(signalsList.size() == 0) 
+            for(auto it = signalsList.begin(); it != signalsList.end(); it++)
             {
-                EV << "corruption reset" << endl;   
-                corrupted = false;
-            }
+                it = signalsList.erase(it);
+            } 
+
+            EV << "corruption reset" << endl;   
+            corrupted = false;
+        }
+
+        virtual bool succesfullTransmition()
+        {
+            return signalsList.size() == 1 ? true : false;
         }
 };
 
@@ -172,8 +166,6 @@ class Host : public cSimpleModule {
             receiveSignal = registerSignal("receive");
             collisionSignal = registerSignal("collision");
             ACKWaitSignal = registerSignal("ACKWaitLength");
-
-
         }
 
         char* hostNameGen(int i) 
@@ -185,7 +177,11 @@ class Host : public cSimpleModule {
         }
 
         virtual void finish() 
-        {
+        {   
+            std::cout << "number of transmitted packets: " << numOfSendedPackets << endl;
+            std::cout << "number of errors: " << n_errors << endl;
+            recordScalar("number of errors", n_errors);
+            recordScalar("number of transmitted packets", numOfSendedPackets);
             recordScalar("duration", simTime());
         }
 
@@ -195,10 +191,11 @@ class Host : public cSimpleModule {
             {
                 if (state == DIFS)
                 {
-
+                    EV << "DIFS: before new boff, " << channelListener->channelBusyness()  << endl;
                     if (!channelListener->channelBusyness()) 
                     {   
                         backoff = intuniform(0, pow(2, cw) - 1);
+                        EV << "New backoff: " << backoff << ", host ID: " << getId() << endl;
                     }
 
                     if (backoff <= 0 && channelWasBusy == false)
@@ -250,6 +247,11 @@ class Host : public cSimpleModule {
                 {
                     /* handle data transmission finished, start waiting SIFS + eps */
                     bubble("Sending finished");
+                    if(channelListener->succesfullTransmition())
+                    {
+                        emit(channelIsBusy, newSignal(false, getId(), simTime()));
+                    }
+
                     if(!channelListener->isCorrupted())
                     {
                         state = SIFS;
@@ -267,15 +269,20 @@ class Host : public cSimpleModule {
                     bubble("Sending failed");
                     n_errors++;
                     emit(channelIsBusy, newSignal(false, getId(), simTime()));
+                    channelListener->resetCorruption();
+
                     state = DIFS;
                     if(!resend) waitStartTime = simTime();
                     resend = true;
 
                     if (cw < cw_max) {
                         cw += 1;
+                        EV << "New cw: " << cw << endl; 
                     } else if (retryLimit < RETRY_LIMIT) {
+                        EV << "New retry limit: " << retryLimit << endl; 
                         retryLimit++;
                     } else {
+                        EV << "Drop old package and setting new frame" << endl; 
                         cw = 1;
                         retryLimit = 0;
                         data_frame = getNextDataFrame();
@@ -295,6 +302,8 @@ class Host : public cSimpleModule {
                     EV << dt << endl;
                     recvStartTime = 0;
 
+                    emit(channelIsBusy, newSignal(true, getId(), simTime()));
+
                     sendDirect(getACK(), radioDelay->doubleValue(), pkLenBits->doubleValue() / txRate, senderModule->gate("in"));
                     channelWasBusy = false;
                     scheduleAt(simTime() + slot, timeout);
@@ -304,19 +313,22 @@ class Host : public cSimpleModule {
                     state = DIFS;
 
                     simtime_t dt = simTime() - recvStartTime;
-                    EV << dt << endl;
                     emit(receiveSignal, dt.dbl());
+                    EV << dt << endl;
                     recvStartTime = 0;
 
                     emit(channelIsBusy, newSignal(true, getId(), simTime()));
 
                     sendDirect(getACK(), radioDelay->doubleValue(), pkLenBits->doubleValue() / txRate, senderModule->gate("in"));
                     channelWasBusy = false;
-                    state = ACK;
-                    scheduleAt(simTime() + difs, timeout);
+                    scheduleAt(simTime() + slot, timeout);
                 }
                 else if (state == ACK)
                 {   
+                    if(channelListener->succesfullTransmition())
+                    {
+                        emit(channelIsBusy, newSignal(false, getId(), simTime()));
+                    }
                     if(!channelListener->isCorrupted()){
                         bubble("Transmitting of message finished succesfully");
 
@@ -325,8 +337,9 @@ class Host : public cSimpleModule {
                         sendStartTime = 0;
 
                         numOfSendedPackets++;
-                        signalMessage* signalMsg = (signalMessage*)malloc(sizeof(signalMessage));
+
                         emit(channelIsBusy, newSignal(false, getId(), simTime()));
+
                         data_frame = getNextDataFrame();
                         state = DIFS;
                         channelWasBusy = false;
@@ -340,10 +353,6 @@ class Host : public cSimpleModule {
                         scheduleAt(simTime() + slot, timeout);
                     }
                 }
-                else if (state = RESEND)
-                {
-
-                }
                 else
                 {
                     throw cRuntimeError("unexpected timeout in state = %d", state);
@@ -356,6 +365,13 @@ class Host : public cSimpleModule {
                 {
                     if(!channelListener->isCorrupted()) {
                         bubble("Recieving message");
+
+                        emit(channelIsBusy, newSignal(false, getId(), simTime()));
+                        if(channelListener->succesfullTransmition())
+                        {
+                            emit(channelIsBusy, newSignal(false, msg->getSenderModule()->getId(), simTime()));
+                        }
+
                         if (state == BACKOFF || state == DIFS)
                         {   
                             recvStartTime = simTime();
@@ -372,17 +388,13 @@ class Host : public cSimpleModule {
                             cancelEvent(timeout);
                             state = DIFS_WAIT_RECEIVE;
                             scheduleAt(simTime() + getDataDuration(msg), timeout);
-                        }/*
-                        else if (state == SIFS)
-                        {
-                            bubble("Collision!");
-                            cancelEvent(timeout);
-                            scheduleAt(simTime() + getDataDuration(msg), timeout);
-                            delete msg;
-                        }*/
+                        }
                     }
                     else
-                    {
+                    {   
+                        //channelListener->resetCorruption();
+                        emit(channelIsBusy, newSignal(false, msg->getSenderModule()->getId(), simTime()));
+
                         bubble("Collision!");
                         cancelEvent(timeout);
                         scheduleAt(simTime() + getDataDuration(msg), timeout);
@@ -391,35 +403,45 @@ class Host : public cSimpleModule {
                 }
                 else if (isAckFrame(msg))
                 {
-                    bubble("Recieving ACK");
-                    if (state == SIFS)
-                    {   
-                        simtime_t dt = simTime() - ACKWaitStartTime;
-                        emit(ACKWaitSignal, dt.dbl());
+                    if(!channelListener->isCorrupted()) {
+                        if (state == SIFS)
+                        {   
+                            bubble("Recieving ACK");
 
-                        cancelEvent(timeout);
-                        auto ack = dynamic_cast<cPacket*>(msg);
-                        if(resend) {
-                            simtime_t dt = simTime() - waitStartTime;
-                            emit(waitSignal, dt.dbl());
+                            emit(channelIsBusy, newSignal(false, getId(), simTime()));
+                            if(channelListener->succesfullTransmition())
+                            {
+                                emit(channelIsBusy, newSignal(false, msg->getSenderModule()->getId(), simTime()));
+                            }
+
+                            simtime_t dt = simTime() - ACKWaitStartTime;
+                            emit(ACKWaitSignal, dt.dbl());
+
+                            cancelEvent(timeout);
+                            auto ack = dynamic_cast<cPacket*>(msg);
+                            if(resend) {
+                                simtime_t dt = simTime() - waitStartTime;
+                                emit(waitSignal, dt.dbl());
+                            }
+                            resend = false;
+                            state = ACK;
+                            scheduleAt(simTime() + ack->getDuration(), timeout);
                         }
-                        resend = false;
-                        state = ACK;
-                        scheduleAt(simTime() + ack->getDuration(), timeout);
+                        else
+                        {
+                            bubble("Ignoring ACK");
+                            delete msg;
+                        }
                     }
                     else
-                    {
-                        bubble("Ignoring ACK");
-                        /*
-                        signalMessage* signalMsg = (signalMessage*)malloc(sizeof(signalMessage));
-                        signalMsg->value = true;
-                        signalMsg->hostId = getId();
-                        signalMsg->sendingTime = simTime();
-                        emit(channelIsBusy, signalMsg);
+                    {   
+                        //channelListener->resetCorruption();
+                        emit(channelIsBusy, newSignal(false, msg->getSenderModule()->getId(), simTime()));
 
-                        state = DIFS; //like resend
-                        scheduleAt(simTime() + getDataDuration(msg), timeout);
-                        */
+                        bubble("Collision!");
+                        cancelEvent(timeout);
+                        //scheduleAt(simTime() + getDataDuration(msg), timeout);
+                        scheduleAt(simTime() + slot, timeout);
                         delete msg;
                     }
                 }
@@ -543,8 +565,7 @@ class Host : public cSimpleModule {
             SIFS,
             ACK,
             BACKOFF_WAIT_RECEIVE,
-            DIFS_WAIT_RECEIVE,
-            RESEND
+            DIFS_WAIT_RECEIVE
         };
         State state = IDLE;
 };

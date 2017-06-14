@@ -5,7 +5,7 @@ simple Host
         double txRate @unit(bps);         // transmission rate
         volatile double radioDelay @unit(s) = default(exponential(1ms));       // propagation delay of radio link
         volatile int pkLenBits @unit(b) = default(exponential(200b));  // packet length in bits
-        volatile double iaTime @unit(s) = default(exponential(1s));  // packet interarrival time
+        volatile double iaTime @unit(s) = default(exponential(0.1s));  // packet interarrival time
         double slotTime @unit(s);         // zero means no slots (pure Aloha)
         @display("i=device/pc_s");
 
