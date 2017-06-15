@@ -1,0 +1,295 @@
+---- 20170424-20:22:12 ---------------------------------------------------------
+
+
+Tcl error: moduleinspector.cc#862: ptr0x21c9760 not found
+    while executing
+"error "$tag not found""
+    (procedure "ModuleInspector:getSubmodCoords" line 4)
+    invoked from within
+"ModuleInspector:getSubmodCoords $c $mod1ptr"
+    (procedure "doAnimateGroup" line 41)
+    invoked from within
+"doAnimateGroup $jobgroup($stage)"
+    (procedure "doConcurrentAnimations" line 30)
+    invoked from within
+"doConcurrentAnimations $tkenv(animjobs)"
+    (procedure "performAnimations" line 4)
+    invoked from within
+"performAnimations"
+
+
+Tcl error: moduleinspector.cc#862: ptr0x21c9760 not found
+    while executing
+"error "$tag not found""
+    (procedure "ModuleInspector:getSubmodCoords" line 4)
+    invoked from within
+"ModuleInspector:getSubmodCoords $c $mod1ptr"
+    (procedure "doAnimateGroup" line 41)
+    invoked from within
+"doAnimateGroup $jobgroup($stage)"
+    (procedure "doConcurrentAnimations" line 30)
+    invoked from within
+"doConcurrentAnimations $tkenv(animjobs)"
+    (procedure "performAnimations" line 4)
+    invoked from within
+"performAnimations"
+
+
+Tcl error: moduleinspector.cc#862: ptr0x21c9760 not found
+    while executing
+"error "$tag not found""
+    (procedure "ModuleInspector:getSubmodCoords" line 4)
+    invoked from within
+"ModuleInspector:getSubmodCoords $c $mod1ptr"
+    (procedure "doAnimateGroup" line 41)
+    invoked from within
+"doAnimateGroup $jobgroup($stage)"
+    (procedure "doConcurrentAnimations" line 30)
+    invoked from within
+"doConcurrentAnimations $tkenv(animjobs)"
+    (procedure "performAnimations" line 4)
+    invoked from within
+"performAnimations"
+
+
+Tcl error: moduleinspector.cc#862: ptr0x21c9760 not found
+    while executing
+"error "$tag not found""
+    (procedure "ModuleInspector:getSubmodCoords" line 4)
+    invoked from within
+"ModuleInspector:getSubmodCoords $c $mod1ptr"
+    (procedure "doAnimateGroup" line 41)
+    invoked from within
+"doAnimateGroup $jobgroup($stage)"
+    (procedure "doConcurrentAnimations" line 30)
+    invoked from within
+"doConcurrentAnimations $tkenv(animjobs)"
+    (procedure "performAnimations" line 4)
+    invoked from within
+"performAnimations"
+
+
+Tcl error: moduleinspector.cc#862: ptr0x21c9760 not found
+    while executing
+"error "$tag not found""
+    (procedure "ModuleInspector:getSubmodCoords" line 4)
+    invoked from within
+"ModuleInspector:getSubmodCoords $c $mod1ptr"
+    (procedure "doAnimateGroup" line 41)
+    invoked from within
+"doAnimateGroup $jobgroup($stage)"
+    (procedure "doConcurrentAnimations" line 30)
+    invoked from within
+"doConcurrentAnimations $tkenv(animjobs)"
+    (procedure "performAnimations" line 4)
+    invoked from within
+"performAnimations"
+
+
+Tcl error: moduleinspector.cc#862: ptr0x21c9760 not found
+    while executing
+"error "$tag not found""
+    (procedure "ModuleInspector:getSubmodCoords" line 4)
+    invoked from within
+"ModuleInspector:getSubmodCoords $c $mod1ptr"
+    (procedure "doAnimateGroup" line 41)
+    invoked from within
+"doAnimateGroup $jobgroup($stage)"
+    (procedure "doConcurrentAnimations" line 30)
+    invoked from within
+"doConcurrentAnimations $tkenv(animjobs)"
+    (procedure "performAnimations" line 4)
+    invoked from within
+"performAnimations"
+
+
+Tcl error: moduleinspector.cc#862: ptr0x21c9760 not found
+    while executing
+"error "$tag not found""
+    (procedure "ModuleInspector:getSubmodCoords" line 4)
+    invoked from within
+"ModuleInspector:getSubmodCoords $c $mod1ptr"
+    (procedure "doAnimateGroup" line 41)
+    invoked from within
+"doAnimateGroup $jobgroup($stage)"
+    (procedure "doConcurrentAnimations" line 30)
+    invoked from within
+"doConcurrentAnimations $tkenv(animjobs)"
+    (procedure "performAnimations" line 4)
+    invoked from within
+"performAnimations"
+
+
+Tcl error: moduleinspector.cc#862: ptr0x21c9760 not found
+    while executing
+"error "$tag not found""
+    (procedure "ModuleInspector:getSubmodCoords" line 4)
+    invoked from within
+"ModuleInspector:getSubmodCoords $c $mod1ptr"
+    (procedure "doAnimateGroup" line 41)
+    invoked from within
+"doAnimateGroup $jobgroup($stage)"
+    (procedure "doConcurrentAnimations" line 30)
+    invoked from within
+"doConcurrentAnimations $tkenv(animjobs)"
+    (procedure "performAnimations" line 4)
+    invoked from within
+"performAnimations"
+
+
+Tcl error: moduleinspector.cc#862: ptr0x21c9760 not found
+    while executing
+"error "$tag not found""
+    (procedure "ModuleInspector:getSubmodCoords" line 4)
+    invoked from within
+"ModuleInspector:getSubmodCoords $c $mod1ptr"
+    (procedure "doAnimateGroup" line 41)
+    invoked from within
+"doAnimateGroup $jobgroup($stage)"
+    (procedure "doConcurrentAnimations" line 30)
+    invoked from within
+"doConcurrentAnimations $tkenv(animjobs)"
+    (procedure "performAnimations" line 4)
+    invoked from within
+"performAnimations"
+
+
+---- 20170424-21:24:58 ---------------------------------------------------------
+
+
+Tcl error: moduleinspector.cc#862: ptr0x2aaa120 not found
+    while executing
+"error "$tag not found""
+    (procedure "ModuleInspector:getSubmodCoords" line 4)
+    invoked from within
+"ModuleInspector:getSubmodCoords $c $mod1ptr"
+    (procedure "doAnimateGroup" line 41)
+    invoked from within
+"doAnimateGroup $jobgroup($stage)"
+    (procedure "doConcurrentAnimations" line 30)
+    invoked from within
+"doConcurrentAnimations $tkenv(animjobs)"
+    (procedure "performAnimations" line 4)
+    invoked from within
+"performAnimations"
+
+
+Tcl error: moduleinspector.cc#862: ptr0x2aaa120 not found
+    while executing
+"error "$tag not found""
+    (procedure "ModuleInspector:getSubmodCoords" line 4)
+    invoked from within
+"ModuleInspector:getSubmodCoords $c $mod1ptr"
+    (procedure "doAnimateGroup" line 41)
+    invoked from within
+"doAnimateGroup $jobgroup($stage)"
+    (procedure "doConcurrentAnimations" line 30)
+    invoked from within
+"doConcurrentAnimations $tkenv(animjobs)"
+    (procedure "performAnimations" line 4)
+    invoked from within
+"performAnimations"
+
+
+Tcl error: moduleinspector.cc#862: ptr0x2aaa120 not found
+    while executing
+"error "$tag not found""
+    (procedure "ModuleInspector:getSubmodCoords" line 4)
+    invoked from within
+"ModuleInspector:getSubmodCoords $c $mod1ptr"
+    (procedure "doAnimateGroup" line 41)
+    invoked from within
+"doAnimateGroup $jobgroup($stage)"
+    (procedure "doConcurrentAnimations" line 30)
+    invoked from within
+"doConcurrentAnimations $tkenv(animjobs)"
+    (procedure "performAnimations" line 4)
+    invoked from within
+"performAnimations"
+
+
+Tcl error: moduleinspector.cc#862: ptr0x2aaa120 not found
+    while executing
+"error "$tag not found""
+    (procedure "ModuleInspector:getSubmodCoords" line 4)
+    invoked from within
+"ModuleInspector:getSubmodCoords $c $mod1ptr"
+    (procedure "doAnimateGroup" line 41)
+    invoked from within
+"doAnimateGroup $jobgroup($stage)"
+    (procedure "doConcurrentAnimations" line 30)
+    invoked from within
+"doConcurrentAnimations $tkenv(animjobs)"
+    (procedure "performAnimations" line 4)
+    invoked from within
+"performAnimations"
+
+
+Tcl error: moduleinspector.cc#862: ptr0x2aaa120 not found
+    while executing
+"error "$tag not found""
+    (procedure "ModuleInspector:getSubmodCoords" line 4)
+    invoked from within
+"ModuleInspector:getSubmodCoords $c $mod1ptr"
+    (procedure "doAnimateGroup" line 41)
+    invoked from within
+"doAnimateGroup $jobgroup($stage)"
+    (procedure "doConcurrentAnimations" line 30)
+    invoked from within
+"doConcurrentAnimations $tkenv(animjobs)"
+    (procedure "performAnimations" line 4)
+    invoked from within
+"performAnimations"
+
+
+Tcl error: moduleinspector.cc#862: ptr0x2aaa120 not found
+    while executing
+"error "$tag not found""
+    (procedure "ModuleInspector:getSubmodCoords" line 4)
+    invoked from within
+"ModuleInspector:getSubmodCoords $c $mod1ptr"
+    (procedure "doAnimateGroup" line 41)
+    invoked from within
+"doAnimateGroup $jobgroup($stage)"
+    (procedure "doConcurrentAnimations" line 30)
+    invoked from within
+"doConcurrentAnimations $tkenv(animjobs)"
+    (procedure "performAnimations" line 4)
+    invoked from within
+"performAnimations"
+
+
+Tcl error: moduleinspector.cc#862: ptr0x2aaa120 not found
+    while executing
+"error "$tag not found""
+    (procedure "ModuleInspector:getSubmodCoords" line 4)
+    invoked from within
+"ModuleInspector:getSubmodCoords $c $mod1ptr"
+    (procedure "doAnimateGroup" line 41)
+    invoked from within
+"doAnimateGroup $jobgroup($stage)"
+    (procedure "doConcurrentAnimations" line 30)
+    invoked from within
+"doConcurrentAnimations $tkenv(animjobs)"
+    (procedure "performAnimations" line 4)
+    invoked from within
+"performAnimations"
+
+
+Tcl error: moduleinspector.cc#862: ptr0x2aaa120 not found
+    while executing
+"error "$tag not found""
+    (procedure "ModuleInspector:getSubmodCoords" line 4)
+    invoked from within
+"ModuleInspector:getSubmodCoords $c $mod1ptr"
+    (procedure "doAnimateGroup" line 41)
+    invoked from within
+"doAnimateGroup $jobgroup($stage)"
+    (procedure "doConcurrentAnimations" line 30)
+    invoked from within
+"doConcurrentAnimations $tkenv(animjobs)"
+    (procedure "performAnimations" line 4)
+    invoked from within
+"performAnimations"
+
+

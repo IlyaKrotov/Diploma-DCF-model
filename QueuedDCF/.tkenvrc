@@ -1,0 +1,7 @@
+# Partial OMNeT++/Tkenv config file -- see $HOME/.tkenvrc as well
+config default-configname	{}
+config default-runnumber	{}
+inspector {DCF.host[3].n_errors} int {} 1 338x54+269+505:normal
+inspector {DCF.host[2].numOfSendedPackets} int {} 1 338x54+55+338:normal
+inspector {DCF.host[4].n_errors} int {} 1 338x54+55+411:normal
+

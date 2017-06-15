@@ -1,0 +1,26 @@
+[General]
+network = QueuedDCF
+#debug-on-errors = true
+
+QueuedDCF.numHosts = 3
+QueuedDCF.txRate = 9.6kbps
+QueuedDCF.host[*].pkLenBits = exponential(200b) #=119 bytes, so that (with +1 byte guard) slotTime is a nice round number
+QueuedDCF.host[*].radioDelay = 10ms
+QueuedDCF.host[*].numHosts = 3
+
+QueuedDCF.generator[*].txRate = 9.6kbps
+QueuedDCF.generator[*].pkLenBits = exponential(200b)
+QueuedDCF.generator[*].iaTime = exponential(1s)
+
+QueuedDCF.CWmin = 1
+QueuedDCF.CWmax = 32
+QueuedDCF.DIFS = 0.4s
+QueuedDCF.SIFS = 0.2s
+QueuedDCF.capacity = 10;
+
+
+description = "slotted DCF, overloaded"
+# slotTime = pkLen/txRate = 960/9600 = 0.1s
+QueuedDCF.slotTime = 100ms
+# too frequent transmissions result in high collision rate and low channel utilization
+QueuedDCF.host[*].iaTime = exponential(1s)
